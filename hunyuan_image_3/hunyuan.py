@@ -2627,7 +2627,7 @@ class HunyuanImage3ForCausalMM(HunyuanImage3PreTrainedModel, GenerationMixin):
         if bot_task in ["think", "recaption"]:
             # Cot
             model_inputs = self.prepare_model_inputs(
-                prompt=prompt, bot_task=bot_task, system_prompt=system_prompt, max_new_tokens=max_new_tokens)
+                prompt=prompt, bot_task=bot_task, system_prompt=system_prompt, max_new_tokens=max_new_tokens, **kwargs)
             print(f"<{bot_task}>", end="", flush=True)
             outputs = self._generate(**model_inputs, **kwargs, verbose=verbose)
             cot_text = self.get_cot_text(outputs[0])
@@ -2640,7 +2640,7 @@ class HunyuanImage3ForCausalMM(HunyuanImage3PreTrainedModel, GenerationMixin):
         # Image ratio
         if image_size == "auto":
             model_inputs = self.prepare_model_inputs(
-                prompt=prompt, cot_text=cot_text, bot_task="img_ratio", system_prompt=system_prompt, seed=seed)
+                prompt=prompt, cot_text=cot_text, bot_task="img_ratio", system_prompt=system_prompt, seed=seed, **kwargs)
             outputs = self._generate(**model_inputs, **kwargs, verbose=verbose)
             ratio_index = outputs[0, -1].item() - self._tkwrapper.ratio_token_offset
             # In some cases, the generated ratio_index is out of range. A valid ratio_index should be in [0, 32].
@@ -2653,7 +2653,7 @@ class HunyuanImage3ForCausalMM(HunyuanImage3PreTrainedModel, GenerationMixin):
         # Generate image
         model_inputs = self.prepare_model_inputs(
             prompt=prompt, cot_text=cot_text, system_prompt=system_prompt, mode="gen_image", seed=seed,
-            image_size=image_size,
+            image_size=image_size, **kwargs
         )
         outputs = self._generate(**model_inputs, **kwargs, verbose=verbose)
         return outputs[0]
