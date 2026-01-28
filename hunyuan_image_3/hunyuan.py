@@ -2422,7 +2422,7 @@ class HunyuanImage3ForCausalMM(HunyuanImage3PreTrainedModel, GenerationMixin):
                 "mode": kwargs["mode"],
                 "images": kwargs.get("images"),
                 "image_mask": kwargs.get("image_mask"),
-                "timestep": kwargs.get("timestep"),
+                "timestep": kwargs.get("timestep",None) or kwargs.get("timesteps"),
                 "gen_timestep_scatter_index": kwargs.get("gen_timestep_scatter_index"),
                 "cond_vae_images": kwargs.get("cond_vae_images"),
                 "cond_timestep": kwargs.get("cond_timestep"),
