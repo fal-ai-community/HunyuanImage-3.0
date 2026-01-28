@@ -923,7 +923,7 @@ class HunyuanStaticCache(StaticCache):
             value_states = value_states.to(v_out.dtype)
         else:
             if self.layers[layer_idx].keys is None:
-                self.layers[layer_idx].lazy_initialization(key_states)
+                self.layers[layer_idx].lazy_initialization(key_states,value_states)
             k_out = self.layers[layer_idx].keys
             v_out = self.layers[layer_idx].values
 
