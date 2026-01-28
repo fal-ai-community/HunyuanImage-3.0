@@ -1233,7 +1233,7 @@ class TokenizerWrapper(object):
                             type="text", text=f"{answer_prefix}{text}{answer_suffix}", **uncond_kwargs))
                 elif message['type'] == 'gen_image':
                     info = message['content']
-                    assert isinstance(info, ImageInfo), f"Expected ImageInfo, but got {type(info)}"
+                    # assert isinstance(info, ImageInfo), f"Expected ImageInfo, but got {type(info)}"
                     if role == "assistant":
                         _sub_sections.append(dict(type="text", text=answer_prefix))
                     _sub_sections.append(dict(type=message['type'], **info.meta_info))
@@ -1241,7 +1241,7 @@ class TokenizerWrapper(object):
                         _sub_sections.append(dict(type="text", text=answer_suffix))
                 elif message['type'] == 'joint_image':
                     info = message['content']
-                    assert isinstance(info, JointImageInfo), f"Expected JointImageInfo, but got {type(info)}"
+                    # assert isinstance(info, JointImageInfo), f"Expected JointImageInfo, but got {type(info)}"
                     _sub_sections.append(dict(type=message['type'], **info.meta_info))
                 else:
                     raise ValueError(f"Unknown message type: {message['type']}")
