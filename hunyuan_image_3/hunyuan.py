@@ -2253,7 +2253,7 @@ class HunyuanImage3ForCausalMM(HunyuanImage3PreTrainedModel, GenerationMixin):
                         "`system_prompts` should be a string or a list of strings with the same length as `prompt`."
 
             if mode == "gen_image":
-                batch_gen_image_info = [self.image_processor.build_image_info(image_size) for _ in range(batch_size)]
+                batch_gen_image_info = [self.image_processor.build_gen_image_info(image_size) for _ in range(batch_size)]
 
         #   -- 2.3 seed
         seeds = self.prepare_seed(seed=kwargs.get('seed'), batch_size=batch_size)
