@@ -923,7 +923,7 @@ class HunyuanStaticCache(StaticCache):
             value_states = value_states.to(v_out.dtype)
         else:
             if self.layers[layer_idx].keys is None:
-                self.layers[layer_idx].lazy_initialization(key_states)
+                self.layers[layer_idx].lazy_initialization(key_states,value_states)
             k_out = self.layers[layer_idx].keys
             v_out = self.layers[layer_idx].values
 
@@ -2253,7 +2253,7 @@ class HunyuanImage3ForCausalMM(HunyuanImage3PreTrainedModel, GenerationMixin):
                         "`system_prompts` should be a string or a list of strings with the same length as `prompt`."
 
             if mode == "gen_image":
-                batch_gen_image_info = [self.image_processor.build_image_info(image_size) for _ in range(batch_size)]
+                batch_gen_image_info = [self.image_processor.build_gen_image_info(image_size) for _ in range(batch_size)]
 
         #   -- 2.3 seed
         seeds = self.prepare_seed(seed=kwargs.get('seed'), batch_size=batch_size)
@@ -2422,7 +2422,7 @@ class HunyuanImage3ForCausalMM(HunyuanImage3PreTrainedModel, GenerationMixin):
                 "mode": kwargs["mode"],
                 "images": kwargs.get("images"),
                 "image_mask": kwargs.get("image_mask"),
-                "timestep": kwargs.get("timestep"),
+                "timestep": kwargs.get("timestep",None) or kwargs.get("timesteps"),
                 "gen_timestep_scatter_index": kwargs.get("gen_timestep_scatter_index"),
                 "cond_vae_images": kwargs.get("cond_vae_images"),
                 "cond_timestep": kwargs.get("cond_timestep"),
